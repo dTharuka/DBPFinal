@@ -32,6 +32,30 @@ public class StudentFormController{
     public Button btnDelete;
     public JFXTextField txtSearch;
     public TableView tblStudent;
+    public Button btnUpdate;
+
+    public void initialize(){
+
+        colId.setCellValueFactory(new PropertyValueFactory<>("studentId"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("studentName"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colContact.setCellValueFactory(new PropertyValueFactory<>("contact"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colNic.setCellValueFactory(new PropertyValueFactory<>("nic"));
+
+//        idColumnName.setCellValueFactory(new PropertyValueFactory<>("studentId"));
+//        NameColumn.setCellValueFactory(new PropertyValueFactory<>("studentName"));
+//        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+//        ContactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
+//        AddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+//        nicColumn.setCellValueFactory(new PropertyValueFactory<>("nic"));
+
+        try {
+            loadAllStudent();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void btnAddNew_OnAction(ActionEvent actionEvent) {
         txtName.setDisable(false);
@@ -84,21 +108,7 @@ public class StudentFormController{
     public void SearchStudentOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
         search();
     }
-    public void initialize(){
 
-        colId.setCellValueFactory(new PropertyValueFactory("Id"));
-        colName.setCellValueFactory(new PropertyValueFactory("name"));
-        colEmail.setCellValueFactory(new PropertyValueFactory("email"));
-        colContact.setCellValueFactory(new PropertyValueFactory("contact"));
-        colAddress.setCellValueFactory(new PropertyValueFactory("address"));
-        colNic.setCellValueFactory(new PropertyValueFactory("nic"));
-
-        try {
-            loadAllStudent();
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void loadAllStudent() throws ClassNotFoundException, SQLException {
         ResultSet result = CrudUtil.execute("SELECT * FROM Student");
@@ -123,7 +133,7 @@ public class StudentFormController{
 
         ResultSet result = CrudUtil.execute("SELECT * FROM Student WHERE studentId=?", txtSearch.getText());
         if (result.next()) {
-
+            lblId.setText(result.getString(1));
             txtName.setText(result.getString(2));
             txtEmail.setText(result.getString(3));
             txtContact.setText(result.getString(4));
@@ -152,5 +162,21 @@ public class StudentFormController{
             e.printStackTrace();
         }
         return "STU-001";
+    }
+
+    public void btnUpdateOnAction(ActionEvent actionEvent) {
+        student s = new student(lblId.getText(), txtName.getText(), txtEmail.getText(), txtContact.getText(), txtAddress.getText(), txtNic.getText());
+
+        try {
+            boolean isUpdated = CrudUtil.execute("UPDATE Student SET studentName=? , email=? , contact=?,address=?,nic=? WHERE studentId=?", s.getStudentName(), s.getEmail(), s.getContact(), s.getAddress(), s.getNic(), s.getStudentId());
+            if (isUpdated) {
+                tblStudent.refresh();
+                new Alert(Alert.AlertType.CONFIRMATION, "Updated!").show();
+            } else {
+                new Alert(Alert.AlertType.WARNING, "Try Again!").show();
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
