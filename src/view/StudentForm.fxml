@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="502.0" prefWidth="798.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StudentFormController">
+   <children>
+      <JFXTextField fx:id="txtContact" layoutX="29.0" layoutY="110.0" promptText="contact" />
+      <JFXTextField fx:id="txtAddress" layoutX="274.0" layoutY="118.0" promptText="address" />
+      <JFXTextField fx:id="txtName" layoutX="274.0" layoutY="61.0" promptText="name" />
+      <JFXTextField fx:id="txtEmail" layoutX="528.0" layoutY="70.0" promptText="email" />
+      <JFXTextField fx:id="txtNic" layoutX="528.0" layoutY="126.0" promptText="nic" />
+      <Label fx:id="lblId" layoutX="29.0" layoutY="60.0" prefHeight="21.0" prefWidth="85.0" style="-fx-background-color: #391313;" textFill="#171616" />
+      <TableView layoutX="29.0" layoutY="209.0" prefHeight="200.0" prefWidth="715.0">
+        <columns>
+          <TableColumn fx:id="colId" prefWidth="75.0" text="Id" />
+          <TableColumn fx:id="colName" prefWidth="75.0" text="name" />
+            <TableColumn fx:id="colEmail" prefWidth="75.0" text="email" />
+            <TableColumn fx:id="colContact" prefWidth="75.0" text="contact" />
+            <TableColumn fx:id="colAddress" prefWidth="75.0" text="address" />
+            <TableColumn fx:id="colNic" prefWidth="75.0" text="nic" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </children>
+</AnchorPane>
