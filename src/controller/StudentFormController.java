@@ -34,10 +34,38 @@ public class StudentFormController{
     public TableView tblStudent;
 
     public void btnAddNew_OnAction(ActionEvent actionEvent) {
+        txtName.setDisable(false);
+        txtEmail.setDisable(false);
+        txtContact.setDisable(false);
+        txtNic.setDisable(false);
+        txtAddress.setDisable(false);
+
+        txtName.clear();
+        txtEmail.clear();
+        txtContact.clear();
+        txtNic.clear();
+        txtAddress.clear();
+
+
+        lblId.setText(generateNewId());
+        txtName.requestFocus();
+        btnSave.setDisable(false);
+        btnSave.setText("Save");
+        tblStudent.getSelectionModel().clearSelection();
 
     }
 
     public void btnSave_OnAction(ActionEvent actionEvent) {
+        student s = new student(lblId.getText(), txtName.getText(), txtEmail.getText(), txtContact.getText(), txtAddress.getText(), txtNic.getText());
+        try {
+            if (CrudUtil.execute("INSERT INTO Student VALUES (?,?,?,?,?,?)", s.getStudentId(), s.getStudentName(), s.getEmail(), s.getContact(), s.getAddress(), s.getNic())) {
+                tblStudent.refresh();
+                new Alert(Alert.AlertType.CONFIRMATION, "Saved!..").show();
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 
     public void btnDelete_OnAction(ActionEvent actionEvent) {
