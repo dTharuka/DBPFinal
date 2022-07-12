@@ -4,10 +4,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.student;
 import util.CrudUtil;
@@ -41,9 +38,20 @@ public class StudentFormController{
     }
 
     public void btnDelete_OnAction(ActionEvent actionEvent) {
+        try{
+            if (CrudUtil.execute("DELETE FROM Student WHERE id=?",lblId.getText())){
+                new Alert(Alert.AlertType.CONFIRMATION, "Deleted!").show();
+            }else{
+                new Alert(Alert.AlertType.WARNING, "Try Again!").show();
+            }
+
+        }catch (SQLException | ClassNotFoundException e){
+
+        }
     }
 
-    public void SearchStudentOnAction(ActionEvent actionEvent) {
+    public void SearchStudentOnAction(ActionEvent actionEvent) throws SQLException, ClassNotFoundException {
+        search();
     }
     public void initialize(){
 
@@ -55,13 +63,13 @@ public class StudentFormController{
         colNic.setCellValueFactory(new PropertyValueFactory("nic"));
 
         try {
-            loadAllCustomers();
+            loadAllStudent();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private void loadAllCustomers() throws ClassNotFoundException, SQLException {
+    private void loadAllStudent() throws ClassNotFoundException, SQLException {
         ResultSet result = CrudUtil.execute("SELECT * FROM Student");
         ObservableList<student> obList = FXCollections.observableArrayList();
 
@@ -78,6 +86,22 @@ public class StudentFormController{
             );
         }
         tblStudent.setItems(obList);
+
+    }
+    public void search() throws SQLException, ClassNotFoundException {
+
+        ResultSet result = CrudUtil.execute("SELECT * FROM Student WHERE studentId=?", txtSearch.getText());
+        if (result.next()) {
+
+            txtName.setText(result.getString(2));
+            txtEmail.setText(result.getString(3));
+            txtContact.setText(result.getString(4));
+            txtAddress.setText(result.getString(5));
+            txtNic.setText(result.getString(6));
+
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Empty Result").show();
+        }
 
     }
 }
