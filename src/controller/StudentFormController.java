@@ -1,6 +1,7 @@
 package controller;
 
 import com.jfoenix.controls.JFXTextField;
+import db.DBConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.student;
 import util.CrudUtil;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -32,6 +34,7 @@ public class StudentFormController{
     public TableView tblStudent;
 
     public void btnAddNew_OnAction(ActionEvent actionEvent) {
+
     }
 
     public void btnSave_OnAction(ActionEvent actionEvent) {
@@ -103,5 +106,23 @@ public class StudentFormController{
             new Alert(Alert.AlertType.WARNING, "Empty Result").show();
         }
 
+    }
+    private String generateNewId() {
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            ResultSet rst = connection.createStatement().executeQuery("SELECT studentId FROM Student ORDER BY studentId DESC LIMIT 1");
+            if (rst.next()) {
+                String id = rst.getString("studentId");
+                int newItemId = Integer.parseInt(id.replace("STU-", "")) + 1;
+                return String.format("STU-%03d", newItemId);
+            } else {
+                return "STU-001";
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "STU-001";
     }
 }
