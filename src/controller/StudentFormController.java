@@ -43,12 +43,7 @@ public class StudentFormController{
         colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colNic.setCellValueFactory(new PropertyValueFactory<>("nic"));
 
-//        idColumnName.setCellValueFactory(new PropertyValueFactory<>("studentId"));
-//        NameColumn.setCellValueFactory(new PropertyValueFactory<>("studentName"));
-//        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-//        ContactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
-//        AddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
-//        nicColumn.setCellValueFactory(new PropertyValueFactory<>("nic"));
+
 
         try {
             loadAllStudent();
@@ -94,7 +89,7 @@ public class StudentFormController{
 
     public void btnDelete_OnAction(ActionEvent actionEvent) {
         try{
-            if (CrudUtil.execute("DELETE FROM Student WHERE id=?",lblId.getText())){
+            if (CrudUtil.execute("DELETE FROM Student WHERE studentId=?",txtSearch.getText())){
                 new Alert(Alert.AlertType.CONFIRMATION, "Deleted!").show();
             }else{
                 new Alert(Alert.AlertType.WARNING, "Try Again!").show();
