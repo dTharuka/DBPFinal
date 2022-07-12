@@ -32,7 +32,7 @@
       <Button fx:id="btnAddNew" layoutX="402.0" layoutY="427.0" mnemonicParsing="false" onAction="#btnAddNew_OnAction" text="Add New" />
       <Button fx:id="btnSave" layoutX="492.0" layoutY="427.0" mnemonicParsing="false" onAction="#btnSave_OnAction" prefHeight="31.0" prefWidth="73.0" text="Save" />
       <Button fx:id="btnDelete" layoutX="681.0" layoutY="427.0" mnemonicParsing="false" onAction="#btnDelete_OnAction" text="Delete" />
-      <JFXTextField fx:id="txtSearch" layoutX="597.0" layoutY="22.0" onAction="#SearchStudentOnAction" text="Search" />
+      <JFXTextField fx:id="txtSearch" layoutX="597.0" layoutY="22.0" onAction="#SearchStudentOnAction" promptText="Search" />
       <Button fx:id="btnUpdate" layoutX="583.0" layoutY="427.0" mnemonicParsing="false" onAction="#btnUpdateOnAction" text="Update" />
    </children>
 </AnchorPane>
